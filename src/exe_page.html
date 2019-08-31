@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Movimentos do Cavalo</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://code.jquery.com/color/jquery.color-2.1.2.js" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="functions.js"></script>
+</head>
+<body>
+	<table id="tabuleiro"></table>
+	<center><h2>Quantidade de movimentos realizados:<span id="movR"></span></h2></center>
+	<center><h2>Quantidade de movimentos analisados:<span id="movA"></span></h2></center>
+	<center>
+		<button type="button" class="btn" onclick="window.location.href = 'index.html'">Voltar</button>
+	</center>
+	<script>
+		let table = document.getElementById("tabuleiro");
+		let coords;
+
+		loadBoard();
+		getPositions();
+		$('div').eq(xSource*N+ySource).show();
+		
+		let [solution,sizeA] = searchShortestWay(xSource,ySource,xDestiny,yDestiny);
+		
+		document.getElementById('movR').innerHTML = " " + solution.length;
+		document.getElementById('movA').innerHTML = " " + sizeA;
+
+		let xPrev = xSource;
+		let yPrev = ySource;
+		let index = 0;
+    	let setInter = setInterval(function(){
+    		coords = JSON.parse(solution[index]);
+    		transitionAnimanton(xPrev,yPrev,coords.x,coords.y);
+    		xPrev = coords.x;
+    		yPrev = coords.y;
+    		index++;
+    		if (index == solution.length) clearInterval(setInter);		 
+    	},3000);
+
+	</script>
+</body>
+</html>
